@@ -138,4 +138,4 @@ input::placeholder { color: var(--mute-2); }
 :root[data-theme="dark"] .toast { background: #E2E8F0; color: #0F172A; }
 .login-wrap { min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 24px; gap: 28px; }
 .login-box { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 12px; }
-.fs-small { font-size: 14px; } .fs-large { font-size: 17px; }
+.fs-small { zoom: 0.9; } .fs-large { zoom: 1.15; }
