@@ -5,12 +5,12 @@ import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 
 export const firebaseConfig = {
-  apiKey: '',
-  authDomain: '',
-  projectId: '',
-  storageBucket: '',
-  messagingSenderId: '',
-  appId: '',
+  apiKey: 'AIzaSyC_yDxXH3cei55RNymZinaGzh2X62cgib8',
+  authDomain: 'myeonlog-271bd.firebaseapp.com',
+  projectId: 'myeonlog-271bd',
+  storageBucket: 'myeonlog-271bd.firebasestorage.app',
+  messagingSenderId: '926562248959',
+  appId: '1:926562248959:web:b930537f35a4d8d17144ca',
 }
 
 export const FB_ENABLED = Boolean(firebaseConfig.apiKey && firebaseConfig.projectId)
