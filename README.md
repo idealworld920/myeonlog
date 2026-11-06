@@ -18,3 +18,11 @@ npm run build
 ```
 
 작성: 이유정
+
+## Firebase 연결
+1. `src/firebase.js`의 `firebaseConfig`에 Firebase 콘솔(프로젝트 설정 > 내 앱 > 웹)의 값을 넣는다.
+2. Authentication > 이메일/비밀번호 사용 설정, 승인된 도메인에 `idealworld920.github.io` 추가.
+3. Firestore Database 생성(asia-northeast3) 후 규칙에 `firestore.rules` 내용 적용.
+4. 첫 로그인 시 시드 데이터(수강생/면접/프로젝트)가 자동으로 Firestore에 올라간다.
+
+config가 비어 있으면 자동으로 로컬 모드(브라우저 저장)로 동작한다.

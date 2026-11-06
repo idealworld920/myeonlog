@@ -13,6 +13,7 @@ export default function Layout() {
   const { state } = useStore()
   const loc = useLocation()
   const [collapsed, setCollapsed] = useState(false)
+  if (!state.ready) return <div className="login-wrap"><div style={{ color: 'var(--mute)' }}>불러오는 중…</div></div>
   if (!state.user) return <Navigate to="/login" replace state={{ from: loc.pathname }} />
 
   const isActive = (to, end) => end ? loc.pathname === to : loc.pathname.startsWith(to)

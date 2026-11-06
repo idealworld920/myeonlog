@@ -44,7 +44,9 @@ const Row = ({ Icon, bg, title, sub, right, onClick, danger }) => (
 )
 
 export function Settings() {
-  const { state, patch, logout, notify, reset } = useStore(); const nav = useNavigate()
+  const { state, patch, logout, notify, changePassword, deleteAccount, fbEnabled } = useStore(); const nav = useNavigate()
+  const [pwOpen, setPwOpen] = useState(false); const [pw1, setPw1] = useState(''); const [pw2, setPw2] = useState('')
+  const pwValid = pw1.length >= 8 && /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(pw1) && pw1 === pw2
   const u = state.user
   const seg = (val, opts, onPick, cls = '') => <div className={'seg ' + cls}>{opts.map(([k, l]) => <button key={k} className={val === k ? 'on' : ''} onClick={() => onPick(k)}>{l}</button>)}</div>
   const Toggle = ({ k, title, sub }) => (
@@ -64,7 +66,12 @@ export function Settings() {
       </div>
       <div className="sec"><span className="t">계정</span></div>
       <div className="list" style={{ background: 'var(--mint)' }}>
-        <Row Icon={() => <Lock />} bg="var(--card-bg)" title="비밀번호 변경" onClick={() => notify('프로토타입: Firebase 연결 후')} />
+        <Row Icon={() => <Lock />} bg="var(--card-bg)" title="비밀번호 변경" sub={fbEnabled ? undefined : '프로토타입(로컬 모드)에서는 비밀번호가 없어요'} onClick={() => fbEnabled ? setPwOpen((v) => !v) : notify('프로토타입(로컬 모드)에서는 비밀번호가 없어요')} />
+        {pwOpen && <div style={{ padding: '4px 16px 14px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div className="field"><input type="password" placeholder="새 비밀번호 (8자 이상 + 특수문자)" value={pw1} onChange={(e) => setPw1(e.target.value)} /></div>
+          <div className="field"><input type="password" placeholder="새 비밀번호 확인" value={pw2} onChange={(e) => setPw2(e.target.value)} /></div>
+          <button className="btn" disabled={!pwValid} style={{ opacity: pwValid ? 1 : 0.5 }} onClick={async () => { if (await changePassword(pw1)) { setPwOpen(false); setPw1(''); setPw2('') } }}>변경하기</button>
+        </div>}
         <Row Icon={() => <Building fill="#DCFCE7" />} bg="var(--card-bg)" title="소속 기관" sub={`${u.org} · 담당자 3명`} onClick={() => notify('프로토타입')} />
       </div>
       <div className="sec"><span className="t">화면</span></div>
@@ -80,8 +87,8 @@ export function Settings() {
       </div>
       <div className="sec"><span className="t">계정 관리</span></div>
       <div className="list" style={{ background: 'var(--peach)' }}>
-        <Row Icon={() => <Logout />} bg="#FFEDD5" title="로그아웃" sub="이 기기에서만 로그아웃됩니다" onClick={() => { logout(); nav('/login') }} />
-        <Row Icon={() => <UserX />} bg="var(--red-bg)" title="회원탈퇴" sub="내 계정만 삭제되고, 기관 데이터는 남습니다" danger onClick={() => { if (confirm('정말 탈퇴할까요? (프로토타입: 이 브라우저 데이터만 초기화)')) { reset(); nav('/login') } }} />
+        <Row Icon={() => <Logout />} bg="#FFEDD5" title="로그아웃" sub="이 기기에서만 로그아웃됩니다" onClick={async () => { await logout(); nav('/login') }} />
+        <Row Icon={() => <UserX />} bg="var(--red-bg)" title="회원탈퇴" sub="내 계정만 삭제되고, 기관 데이터는 남습니다" danger onClick={async () => { if (confirm(fbEnabled ? '정말 탈퇴할까요? 내 계정이 삭제됩니다.' : '정말 탈퇴할까요? (프로토타입: 이 브라우저 데이터만 초기화)')) { if (await deleteAccount()) nav('/login') } }} />
       </div>
       <div className="note" style={{ textAlign: 'center' }}>면접로그 v0.1 프로토타입 · 이유정</div>
     </div>

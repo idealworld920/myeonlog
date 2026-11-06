@@ -7,11 +7,13 @@ const ORG_DOMAINS = { 'ooacademy.co.kr': 'OO직업전문학교', 'company.co.kr'
 const pwOk = (pw) => ({ len: pw.length >= 8, special: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(pw) })
 
 export function Login() {
-  const { login } = useStore()
+  const { login, resetPassword, fbEnabled, notify } = useStore()
+  const notifyNeedEmail = () => notify('이메일을 먼저 입력해 주세요')
   const nav = useNavigate(); const loc = useLocation()
-  const [email, setEmail] = useState('hojun@ooacademy.co.kr')
+  const [busy, setBusy] = useState(false)
+  const [email, setEmail] = useState(fbEnabled ? '' : 'hojun@ooacademy.co.kr')
   const [pw, setPw] = useState('')
-  const submit = (e) => { e.preventDefault(); if (!email) return; login(email); nav(loc.state?.from || '/', { replace: true }) }
+  const submit = async (e) => { e.preventDefault(); if (!email || (fbEnabled && !pw)) return; setBusy(true); const ok = await login(email, pw); setBusy(false); if (ok) nav(loc.state?.from || '/', { replace: true }) }
   return (
     <div className="login-wrap">
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
@@ -22,17 +24,18 @@ export function Login() {
         <div className="field"><label>이메일</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="name@company.co.kr" /></div>
         <div className="field"><label>비밀번호</label><input type="password" value={pw} onChange={(e) => setPw(e.target.value)} placeholder="••••••••" /></div>
         <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 'calc(14px * var(--fs))', color: 'var(--mute)' }}><input type="checkbox" defaultChecked style={{ width: 18, height: 18, accentColor: 'var(--sky)', margin: 0 }} />로그인 상태 유지</label>
-        <button className="btn" type="submit" style={{ marginTop: 8, height: 54 }}>로그인</button>
-        <a href="#reset" style={{ textAlign: 'center', fontSize: 'calc(14px * var(--fs))', fontWeight: 500 }}>비밀번호를 잊으셨나요?</a>
+        <button className="btn" type="submit" disabled={busy} style={{ marginTop: 8, height: 54, opacity: busy ? 0.6 : 1 }}>{busy ? '확인 중…' : '로그인'}</button>
+        <a href="#reset" onClick={(e) => { e.preventDefault(); if (!email) return notifyNeedEmail(); resetPassword(email) }} style={{ textAlign: 'center', fontSize: 'calc(14px * var(--fs))', fontWeight: 500 }}>비밀번호를 잊으셨나요?</a>
         <Link to="/signup" className="btn" style={{ background: '#FFF3D5', color: 'var(--mute)', border: '1px solid var(--sky-200)', marginTop: 12, height: 54 }}>회원가입</Link>
-        <div className="note" style={{ textAlign: 'center' }}>프로토타입: 아무 이메일로 로그인돼요 · 데이터는 이 브라우저에만 저장</div>
+        <div className="note" style={{ textAlign: 'center' }}>{fbEnabled ? '기관 담당자 계정으로 로그인하세요' : '프로토타입: 아무 이메일로 로그인돼요 · 데이터는 이 브라우저에만 저장'}</div>
       </form>
     </div>
   )
 }
 
 export function Signup() {
-  const { login } = useStore(); const nav = useNavigate()
+  const { signup, notify } = useStore(); const nav = useNavigate()
+  const [busy, setBusy] = useState(false)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [pw, setPw] = useState('')
@@ -41,7 +44,7 @@ export function Signup() {
   const org = ORG_DOMAINS[domain]
   const ok = pwOk(pw)
   const can = name && email.includes('@') && ok.len && ok.special && agree
-  const submit = (e) => { e.preventDefault(); if (!can) return; login(email); nav('/', { replace: true }) }
+  const submit = async (e) => { e.preventDefault(); if (!can || busy) return; setBusy(true); const ok = await signup(name, email, pw); setBusy(false); if (ok) { notify('가입 완료!'); nav('/', { replace: true }) } }
   return (
     <div className="page" style={{ paddingTop: 24 }}>
       <div className="topbar"><Link to="/login" className="backbtn" aria-label="뒤로"><Back /></Link><div style={{ fontSize: 'calc(15px * var(--fs))', color: 'var(--mute)' }}>회원가입</div></div>
@@ -75,7 +78,7 @@ export function Signup() {
           <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} style={{ width: 18, height: 18, accentColor: 'var(--sky)', margin: '1px 0 0', flexShrink: 0 }} />
           <span>수강생 개인정보를 업무 목적으로만 사용하며, <a href="#terms" style={{ fontWeight: 500 }}>이용약관·개인정보 처리방침</a>에 동의합니다.</span>
         </label>
-        <button className="btn" type="submit" disabled={!can} style={{ height: 54, opacity: can ? 1 : 0.5 }}>인증 메일 받고 가입하기</button>
+        <button className="btn" type="submit" disabled={!can || busy} style={{ height: 54, opacity: can && !busy ? 1 : 0.5 }}>{busy ? '가입 중…' : '가입하기'}</button>
       </form>
       <div style={{ textAlign: 'center', fontSize: 'calc(14px * var(--fs))', color: 'var(--mute)' }}>이미 계정이 있나요? <Link to="/login" style={{ fontWeight: 500 }}>로그인</Link></div>
       <div className="card" style={{ padding: '14px 16px', fontSize: 'calc(13px * var(--fs))', color: 'var(--mute)', lineHeight: 1.5, textAlign: 'center' }}>기관 이메일이 없나요?<br /><span style={{ color: 'var(--mute-2)' }}>기관 관리자에게 초대를 요청하면 초대 링크가 메일로 와요</span></div>
