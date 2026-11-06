@@ -13,20 +13,20 @@ export function Upload() {
       <TopBar title="엑셀 업로드" back="/" />
       <label className="card" style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}>
         <div className="tile" style={{ background: 'var(--green-bg)' }}><Doc fill="#FFFFFF" /></div>
-        <div style={{ flex: 1, minWidth: 0 }}><div style={{ fontSize: 15, fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{file ? file.name : '면접 리스트 엑셀 선택'}</div><div style={{ fontSize: 13, color: 'var(--mute)' }}>{file ? '첫 번째 시트 · 764행 읽음' : '지금 쓰는 엑셀 그대로, 양식 안 바꿔도 돼요'}</div></div>
-        <span style={{ fontSize: 13, color: 'var(--sky-dark)', fontWeight: 500 }}>{file ? '변경' : '선택'}</span>
+        <div style={{ flex: 1, minWidth: 0 }}><div style={{ fontSize: 'calc(15px * var(--fs))', fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{file ? file.name : '면접 리스트 엑셀 선택'}</div><div style={{ fontSize: 'calc(13px * var(--fs))', color: 'var(--mute)' }}>{file ? '첫 번째 시트 · 764행 읽음' : '지금 쓰는 엑셀 그대로, 양식 안 바꿔도 돼요'}</div></div>
+        <span style={{ fontSize: 'calc(13px * var(--fs))', color: 'var(--sky-dark)', fontWeight: 500 }}>{file ? '변경' : '선택'}</span>
         <input type="file" accept=".xlsx,.xls" style={{ display: 'none' }} onChange={(e) => setFile(e.target.files?.[0] || null)} />
       </label>
       {preview ? <>
         <div className="hero" style={{ borderRadius: 18 }}>
           <div className="lbl">반영될 내용</div>
-          <div className="grid"><div><div className="k">새 회사</div><div className="v" style={{ fontSize: 30 }}>{preview.companies}</div></div><div><div className="k">새 면접기록</div><div className="v" style={{ fontSize: 30 }}>{preview.interviews}</div></div><div><div className="k">새 수강생</div><div className="v" style={{ fontSize: 30 }}>{preview.students}</div></div></div>
-          <div style={{ fontSize: 13, color: '#BAE6FD' }}>이미 있는 {preview.skipped}건은 건너뜁니다 · 삭제되는 항목 없음</div>
+          <div className="grid"><div><div className="k">새 회사</div><div className="v" style={{ fontSize: 'calc(30px * var(--fs))' }}>{preview.companies}</div></div><div><div className="k">새 면접기록</div><div className="v" style={{ fontSize: 'calc(30px * var(--fs))' }}>{preview.interviews}</div></div><div><div className="k">새 수강생</div><div className="v" style={{ fontSize: 'calc(30px * var(--fs))' }}>{preview.students}</div></div></div>
+          <div style={{ fontSize: 'calc(13px * var(--fs))', color: '#BAE6FD' }}>이미 있는 {preview.skipped}건은 건너뜁니다 · 삭제되는 항목 없음</div>
         </div>
         <div className="sec"><span className="t">새로 추가될 회사</span><span className="r">12곳 중 4곳 표시</span></div>
         <div className="list" style={{ background: 'var(--card-bg)' }}>
-          {[['㈜케이엑스넥스지', '10.27'], ['㈜뉴로코어', '10.27'], ['㈜엔플럭스', '10.23']].map(([n, d]) => <div key={n} className="row" style={{ borderBottomColor: 'var(--line-2)' }}><span className="badge b-sky" style={{ fontSize: 11, fontWeight: 700 }}>NEW</span><div className="body"><div className="ttl">{n}</div></div><span style={{ fontSize: 13, color: 'var(--mute)' }}>{d}</span></div>)}
-          <div className="row" style={{ borderBottomColor: 'var(--line-2)' }}><span className="badge b-amber" style={{ fontSize: 11, fontWeight: 700 }}>확인</span><div className="body"><div className="ttl">㈜웨인테크놀로지</div><div className="sub" style={{ color: 'var(--amber-ink)' }}>기존 "(주)웨인테크놀로지"와 같은 회사로 합칠게요</div></div></div>
+          {[['㈜케이엑스넥스지', '10.27'], ['㈜뉴로코어', '10.27'], ['㈜엔플럭스', '10.23']].map(([n, d]) => <div key={n} className="row" style={{ borderBottomColor: 'var(--line-2)' }}><span className="badge b-sky" style={{ fontSize: 'calc(11px * var(--fs))', fontWeight: 700 }}>NEW</span><div className="body"><div className="ttl">{n}</div></div><span style={{ fontSize: 'calc(13px * var(--fs))', color: 'var(--mute)' }}>{d}</span></div>)}
+          <div className="row" style={{ borderBottomColor: 'var(--line-2)' }}><span className="badge b-amber" style={{ fontSize: 'calc(11px * var(--fs))', fontWeight: 700 }}>확인</span><div className="body"><div className="ttl">㈜웨인테크놀로지</div><div className="sub" style={{ color: 'var(--amber-ink)' }}>기존 "(주)웨인테크놀로지"와 같은 회사로 합칠게요</div></div></div>
         </div>
         <div className="note">같은 회사명이 (주)·㈜ 표기만 다를 때는 자동으로 하나로 합칩니다. 반영 후에도 회사 상세에서 수정할 수 있어요.</div>
         <div className="sticky-actions"><button className="btn ghost" style={{ flex: 1 }} onClick={() => setFile(null)}>취소</button><button className="btn" style={{ flex: 2 }} onClick={() => { notify('프로토타입: 실제 반영은 Firebase 연결 후'); nav('/') }}>55건 반영하기</button></div>
@@ -50,16 +50,16 @@ export function Settings() {
   const Toggle = ({ k, title, sub }) => (
     <label className="row" style={{ borderBottom: '1px solid rgba(255,255,255,.7)' }}>
       <div className="body"><div className="ttl">{title}</div><div className="sub">{sub}</div></div>
-      <span style={{ fontSize: 12, fontWeight: 500, color: state.alerts[k] ? 'var(--amber-ink)' : 'var(--mute-2)' }}>{state.alerts[k] ? '켜짐' : '꺼짐'}</span>
+      <span style={{ fontSize: 'calc(12px * var(--fs))', fontWeight: 500, color: state.alerts[k] ? 'var(--amber-ink)' : 'var(--mute-2)' }}>{state.alerts[k] ? '켜짐' : '꺼짐'}</span>
       <span className="switch"><input type="checkbox" checked={state.alerts[k]} onChange={(e) => patch((s) => ({ alerts: { ...s.alerts, [k]: e.target.checked } }))} /><span /></span>
     </label>
   )
   return (
     <div className="page">
-      <TopBar title="" back="/" right={<div style={{ fontSize: 22, fontWeight: 700, flex: 1 }}>환경설정</div>} />
+      <TopBar title="" back="/" right={<div style={{ fontSize: 'calc(22px * var(--fs))', fontWeight: 700, flex: 1 }}>환경설정</div>} />
       <div className="card" style={{ background: 'var(--lav)', padding: 16, display: 'flex', alignItems: 'center', gap: 14 }}>
-        <div className="avatar" style={{ width: 48, height: 48, fontSize: 18, background: '#7C3AED', color: '#fff' }}>{initial(u.name)}</div>
-        <div style={{ flex: 1 }}><div style={{ fontSize: 17, fontWeight: 700 }}>{u.name}</div><div style={{ fontSize: 13, color: 'var(--mute)' }}>{u.email} · 담당자</div></div>
+        <div className="avatar" style={{ width: 48, height: 48, fontSize: 'calc(18px * var(--fs))', background: '#7C3AED', color: '#fff' }}>{initial(u.name)}</div>
+        <div style={{ flex: 1 }}><div style={{ fontSize: 'calc(17px * var(--fs))', fontWeight: 700 }}>{u.name}</div><div style={{ fontSize: 'calc(13px * var(--fs))', color: 'var(--mute)' }}>{u.email} · 담당자</div></div>
         <button className="btn sm tint" style={{ color: 'var(--lav-ink)', borderColor: 'var(--lav-line)' }} onClick={() => notify('프로토타입')}>편집</button>
       </div>
       <div className="sec"><span className="t">계정</span></div>

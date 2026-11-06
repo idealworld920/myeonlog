@@ -5,8 +5,8 @@ import { TopBar } from '../Layout'
 import { Search, Team, Person, Doc, Slides, Globe, Code, Arch, Video, Chevron, Download, Play, Lock, Plus } from '../icons'
 
 const has = (p) => ({ plan: p.plans?.length > 0, deploy: !!p.deploy || p.deployDocs?.length > 0, video: p.videos?.length > 0 })
-const Chip = ({ ok, label }) => <span className={'badge ' + (ok ? 'b-green' : 'b-amber')} style={{ fontSize: 12 }}>{ok ? `✓ ${label}` : `${label} 없음`}</span>
-const TypeBadge = ({ type }) => <span className="badge" style={{ fontSize: 11, fontWeight: 700, background: 'var(--card-bg)', color: type === 'team' ? 'var(--blue-ink)' : 'var(--pink-ink)' }}>{type === 'team' ? '팀' : '개인'}</span>
+const Chip = ({ ok, label }) => <span className={'badge ' + (ok ? 'b-green' : 'b-amber')} style={{ fontSize: 'calc(12px * var(--fs))' }}>{ok ? `✓ ${label}` : `${label} 없음`}</span>
+const TypeBadge = ({ type }) => <span className="badge" style={{ fontSize: 'calc(11px * var(--fs))', fontWeight: 700, background: 'var(--card-bg)', color: type === 'team' ? 'var(--blue-ink)' : 'var(--pink-ink)' }}>{type === 'team' ? '팀' : '개인'}</span>
 
 export function Projects() {
   const { state } = useStore()
@@ -33,10 +33,10 @@ export function Projects() {
           <Link key={p.id} to={`/project/${p.id}`} className="list" style={{ background: p.type === 'team' ? 'var(--blue)' : 'var(--pink)', padding: '14px 16px', gap: 10, color: 'inherit' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <div className="tile" style={{ background: 'var(--card-bg)' }}>{p.type === 'team' ? <Team /> : <Person fill="#F8E6F6" />}</div>
-              <div style={{ flex: 1, minWidth: 0 }}><div style={{ fontSize: 16, fontWeight: 700 }}>{p.title}</div><div style={{ fontSize: 13, color: 'var(--mute)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.members.map((m) => sById[m.studentId]?.name).filter(Boolean).join(' · ')} · {p.period}</div></div>
+              <div style={{ flex: 1, minWidth: 0 }}><div style={{ fontSize: 'calc(16px * var(--fs))', fontWeight: 700 }}>{p.title}</div><div style={{ fontSize: 'calc(13px * var(--fs))', color: 'var(--mute)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.members.map((m) => sById[m.studentId]?.name).filter(Boolean).join(' · ')} · {p.period}</div></div>
               <TypeBadge type={p.type} />
             </div>
-            <div className="chips" style={{ gap: 6 }}><Chip ok={h.plan} label="기획서" /><Chip ok={h.deploy} label="배포 자료" /><Chip ok={h.video} label="시연영상" />{p.stack?.length > 0 && <span className="badge" style={{ background: 'var(--card-bg)', color: 'var(--mute)', fontSize: 12 }}>{p.stack.slice(0, 3).join(' · ')}</span>}</div>
+            <div className="chips" style={{ gap: 6 }}><Chip ok={h.plan} label="기획서" /><Chip ok={h.deploy} label="배포 자료" /><Chip ok={h.video} label="시연영상" />{p.stack?.length > 0 && <span className="badge" style={{ background: 'var(--card-bg)', color: 'var(--mute)', fontSize: 'calc(12px * var(--fs))' }}>{p.stack.slice(0, 3).join(' · ')}</span>}</div>
           </Link>
         ) })}
         {list.length === 0 && <div className="empty card">조건에 맞는 프로젝트가 없어요</div>}
@@ -52,9 +52,9 @@ function useProject() {
   return { p, sById, companies }
 }
 const Header = ({ p, title }) => (
-  <div style={{ flex: 1, minWidth: 0 }}><div style={{ fontSize: 12, color: 'var(--mute)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.title}</div><div style={{ fontSize: 18, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>{title}</div></div>
+  <div style={{ flex: 1, minWidth: 0 }}><div style={{ fontSize: 'calc(12px * var(--fs))', color: 'var(--mute)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.title}</div><div style={{ fontSize: 'calc(18px * var(--fs))', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>{title}</div></div>
 )
-const Internal = () => <span className="badge b-amber" style={{ fontSize: 11, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}><Lock width="10" height="10" stroke="#B45309" />내부용</span>
+const Internal = () => <span className="badge b-amber" style={{ fontSize: 'calc(11px * var(--fs))', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}><Lock width="10" height="10" stroke="#B45309" />내부용</span>
 
 export function Project() {
   const { p, sById } = useProject(); const nav = useNavigate(); const { notify } = useStore()
@@ -63,18 +63,18 @@ export function Project() {
   const Card = ({ to, bg, Icon, iconFill, title, sub, ok, extra }) => (
     <Link to={to} className="row" style={{ background: bg, borderRadius: 18, border: '1px solid var(--sky-100)', color: 'inherit' }}>
       <div className="tile" style={{ width: 46, height: 46, background: 'var(--card-bg)' }}><Icon fill={iconFill} width="26" height="26" /></div>
-      <div className="body"><div className="ttl" style={{ fontSize: 16, fontWeight: 700, display: 'flex', gap: 6, alignItems: 'center' }}>{title}{extra}</div><div className="sub">{sub}</div></div>
-      <span className={'badge ' + (ok ? 'b-green' : 'b-amber')} style={{ fontSize: 11, fontWeight: 600 }}>{ok ? '완료' : '미등록'}</span><Chevron className="chev" />
+      <div className="body"><div className="ttl" style={{ fontSize: 'calc(16px * var(--fs))', fontWeight: 700, display: 'flex', gap: 6, alignItems: 'center' }}>{title}{extra}</div><div className="sub">{sub}</div></div>
+      <span className={'badge ' + (ok ? 'b-green' : 'b-amber')} style={{ fontSize: 'calc(11px * var(--fs))', fontWeight: 600 }}>{ok ? '완료' : '미등록'}</span><Chevron className="chev" />
     </Link>
   )
   return (
     <div className="page">
       <TopBar title="프로젝트" back="/projects" right={<button className="btn sm ghost" onClick={() => notify('프로토타입: 편집은 다음 단계')}>편집</button>} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}><span className="badge" style={{ fontSize: 11, fontWeight: 700, background: p.type === 'team' ? 'var(--blue)' : 'var(--pink)', color: p.type === 'team' ? 'var(--blue-ink)' : 'var(--pink-ink)' }}>{p.type === 'team' ? '팀 프로젝트' : '개인 프로젝트'}</span><span style={{ fontSize: 12, color: 'var(--mute)' }}>{p.period} · {p.cohort}</span></div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}><span className="badge" style={{ fontSize: 'calc(11px * var(--fs))', fontWeight: 700, background: p.type === 'team' ? 'var(--blue)' : 'var(--pink)', color: p.type === 'team' ? 'var(--blue-ink)' : 'var(--pink-ink)' }}>{p.type === 'team' ? '팀 프로젝트' : '개인 프로젝트'}</span><span style={{ fontSize: 'calc(12px * var(--fs))', color: 'var(--mute)' }}>{p.period} · {p.cohort}</span></div>
         <h2 className="h2">{p.title}</h2>
-        <div style={{ fontSize: 14, color: 'var(--ink-2)', lineHeight: 1.55 }}>{p.summary}</div>
-        <div className="chips" style={{ gap: 6 }}>{p.stack.map((s) => <span key={s} style={{ fontSize: 12, color: 'var(--sky-dark)', background: 'var(--card-bg)', border: '1px solid var(--sky-200)', borderRadius: 8, padding: '3px 9px' }}>{s}</span>)}</div>
+        <div style={{ fontSize: 'calc(14px * var(--fs))', color: 'var(--ink-2)', lineHeight: 1.55 }}>{p.summary}</div>
+        <div className="chips" style={{ gap: 6 }}>{p.stack.map((s) => <span key={s} style={{ fontSize: 'calc(12px * var(--fs))', color: 'var(--sky-dark)', background: 'var(--card-bg)', border: '1px solid var(--sky-200)', borderRadius: 8, padding: '3px 9px' }}>{s}</span>)}</div>
       </div>
       <div className="pc-cols">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -82,9 +82,9 @@ export function Project() {
           <div className="list" style={{ background: 'var(--blue)' }}>
             {p.members.map((m) => { const s = sById[m.studentId]; return (
               <Link key={m.studentId} to={`/student/${m.studentId}`} className="row" style={{ minHeight: 50 }}>
-                <div className="avatar" style={{ width: 32, height: 32, fontSize: 12, background: 'var(--card-bg)', color: 'var(--blue-ink)' }}>{initial(s?.name)}</div>
-                <div className="body"><div className="ttl" style={{ fontSize: 14 }}>{s?.name}</div><div className="sub" style={{ fontSize: 12 }}>{m.role}</div></div>
-                <span className={'badge ' + (s?.status === '취업' ? 'b-green' : 'b-gray')} style={{ fontSize: 11 }}>{s?.status}</span>
+                <div className="avatar" style={{ width: 32, height: 32, fontSize: 'calc(12px * var(--fs))', background: 'var(--card-bg)', color: 'var(--blue-ink)' }}>{initial(s?.name)}</div>
+                <div className="body"><div className="ttl" style={{ fontSize: 'calc(14px * var(--fs))' }}>{s?.name}</div><div className="sub" style={{ fontSize: 'calc(12px * var(--fs))' }}>{m.role}</div></div>
+                <span className={'badge ' + (s?.status === '취업' ? 'b-green' : 'b-gray')} style={{ fontSize: 'calc(11px * var(--fs))' }}>{s?.status}</span>
               </Link>
             ) })}
           </div>
@@ -118,7 +118,7 @@ export function ProjectPlan() {
   return (
     <div className="page">
       <div className="topbar"><TopBar title="" back={`/project/${p.id}`} /><Header p={p} title="기획서" /><button className="btn sm" style={{ background: 'var(--amber)' }} onClick={upload}>+ 업로드</button></div>
-      {p.planSummary && <div className="card" style={{ background: 'var(--yellow)', padding: '14px 16px' }}><div style={{ fontSize: 13, fontWeight: 600, color: 'var(--mute)', marginBottom: 6 }}>한 줄 요약</div><div style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--ink-2)' }}>{p.planSummary}</div></div>}
+      {p.planSummary && <div className="card" style={{ background: 'var(--yellow)', padding: '14px 16px' }}><div style={{ fontSize: 'calc(13px * var(--fs))', fontWeight: 600, color: 'var(--mute)', marginBottom: 6 }}>한 줄 요약</div><div style={{ fontSize: 'calc(14px * var(--fs))', lineHeight: 1.55, color: 'var(--ink-2)' }}>{p.planSummary}</div></div>}
       <div className="sec"><span className="t">파일</span><span className="r">{p.plans.length}개 · 최신순</span></div>
       <div className="list" style={{ background: 'var(--yellow)' }}>
         {p.plans.map((f) => <FileRow key={f.id} f={f} by={sById[f.by]?.name || ''} color="var(--yellow-ink)" Icon={f.name.endsWith('.pptx') ? Slides : Doc} />)}
@@ -139,20 +139,20 @@ export function ProjectDeploy() {
       <div className="topbar"><TopBar title="" back={`/project/${p.id}`} /><Header p={p} title="배포 자료" /><button className="btn sm" style={{ background: '#0D9488' }} onClick={() => notify('프로토타입: 주소 등록은 다음 단계')}>+ 추가</button></div>
       {d ? (
         <div className="card" style={{ background: 'var(--mint)', padding: 16, display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><span style={{ fontSize: 13, fontWeight: 600, color: 'var(--mute)' }}>배포 주소</span><span className="badge b-green" style={{ fontSize: 11, fontWeight: 600 }}>● {d.status} · 오늘 05:00 확인</span></div>
-          <a href={d.url} target="_blank" rel="noreferrer" style={{ fontSize: 17, fontWeight: 700, color: 'var(--mint-ink)', wordBreak: 'break-all' }}>{d.url.replace('https://', '')} ↗</a>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><span style={{ fontSize: 'calc(13px * var(--fs))', fontWeight: 600, color: 'var(--mute)' }}>배포 주소</span><span className="badge b-green" style={{ fontSize: 'calc(11px * var(--fs))', fontWeight: 600 }}>● {d.status} · 오늘 05:00 확인</span></div>
+          <a href={d.url} target="_blank" rel="noreferrer" style={{ fontSize: 'calc(17px * var(--fs))', fontWeight: 700, color: 'var(--mint-ink)', wordBreak: 'break-all' }}>{d.url.replace('https://', '')} ↗</a>
           <div style={{ display: 'flex', gap: 8 }}><button className="btn sm tint" style={{ flex: 1, color: 'var(--mint-ink)', borderColor: 'var(--mint-line)' }} onClick={() => { navigator.clipboard?.writeText(d.url); notify('주소 복사됨') }}>주소 복사</button><button className="btn sm tint" style={{ flex: 1, color: 'var(--mint-ink)', borderColor: 'var(--mint-line)' }} onClick={() => notify('테스트 계정: demo / demo1234!')}>테스트 계정 보기</button></div>
         </div>
       ) : <div className="card empty">배포 주소가 아직 없어요</div>}
       <div className="sec"><span className="t">저장소 · 문서</span><span className="r">{(d ? 1 : 0) + p.deployDocs.length}개</span></div>
       <div className="list" style={{ background: 'var(--mint)' }}>
-        {d?.repo && <a href={d.repo} target="_blank" rel="noreferrer" className="row"><div className="tile" style={{ background: 'var(--card-bg)' }}><Code /></div><div className="body"><div className="ttl">GitHub 저장소</div><div className="sub">{d.repo.replace('https://', '')} · 커밋 {d.commits}</div></div><span style={{ fontSize: 12, color: 'var(--mint-ink)', fontWeight: 600 }}>열기 ↗</span></a>}
+        {d?.repo && <a href={d.repo} target="_blank" rel="noreferrer" className="row"><div className="tile" style={{ background: 'var(--card-bg)' }}><Code /></div><div className="body"><div className="ttl">GitHub 저장소</div><div className="sub">{d.repo.replace('https://', '')} · 커밋 {d.commits}</div></div><span style={{ fontSize: 'calc(12px * var(--fs))', color: 'var(--mint-ink)', fontWeight: 600 }}>열기 ↗</span></a>}
         {p.deployDocs.map((f) => <FileRow key={f.id} f={f} by={sById[f.by]?.name || ''} color="var(--mint-ink)" Icon={Arch} />)}
         {!d?.repo && p.deployDocs.length === 0 && <div className="empty">저장소·문서가 없어요</div>}
       </div>
       {d?.env && <>
         <div className="sec"><span className="t">배포 환경</span></div>
-        <div className="card" style={{ padding: '4px 16px' }}>{d.env.map(([k, v]) => <div key={k} style={{ display: 'flex', justifyContent: 'space-between', padding: '11px 0', borderBottom: '1px solid var(--line-2)', fontSize: 14 }}><span style={{ color: 'var(--mute)' }}>{k}</span><span style={{ fontWeight: 500 }}>{v}</span></div>)}</div>
+        <div className="card" style={{ padding: '4px 16px' }}>{d.env.map(([k, v]) => <div key={k} style={{ display: 'flex', justifyContent: 'space-between', padding: '11px 0', borderBottom: '1px solid var(--line-2)', fontSize: 'calc(14px * var(--fs))' }}><span style={{ color: 'var(--mute)' }}>{k}</span><span style={{ fontWeight: 500 }}>{v}</span></div>)}</div>
       </>}
       <div className="note">배포 주소는 앱이 하루 1번 접속해 "운영 중 / 접속 안 됨"을 표시해요. 접속 안 되면 팀원에게 알림.</div>
       <div className="sticky-actions"><button className="btn ghost" style={{ flex: 1 }} onClick={() => nav(`/project/${p.id}/plan`)}>← 기획서</button><button className="btn" style={{ flex: 1 }} onClick={() => nav(`/project/${p.id}/video`)}>시연영상 →</button></div>
@@ -170,17 +170,17 @@ export function ProjectVideo() {
       {v ? (
         <div className="list" style={{ background: 'var(--lav)' }}>
           <div className="video"><span className="tag">{v.name} · {v.length}</span><button className="play" aria-label="재생" onClick={() => notify('프로토타입: 영상 파일 연결 전')}><Play width="28" height="28" color="#fff" /></button><div className="bar"><i /></div></div>
-          <div style={{ padding: '12px 14px', fontSize: 12, color: 'var(--mute)', lineHeight: 1.5 }}>{v.date} · {sById[v.by]?.name} 업로드 · 기관 담당자와 팀원만 재생돼요</div>
+          <div style={{ padding: '12px 14px', fontSize: 'calc(12px * var(--fs))', color: 'var(--mute)', lineHeight: 1.5 }}>{v.date} · {sById[v.by]?.name} 업로드 · 기관 담당자와 팀원만 재생돼요</div>
         </div>
       ) : <div className="card empty">시연영상이 아직 없어요</div>}
       {v?.chapters && <>
         <div className="sec"><span className="t">구간</span><button className="btn sm" style={{ background: 'transparent', color: 'var(--lav-ink)', padding: 0, height: 'auto' }} onClick={() => notify('프로토타입')}>+ 구간 추가</button></div>
-        <div className="list" style={{ background: 'var(--lav)' }}>{v.chapters.map(([t, l], i) => <a key={i} href="#ch" className="row" style={{ minHeight: 48 }}><span style={{ fontSize: 12, color: 'var(--lav-ink)', fontWeight: 700, width: 36 }}>{t}</span><div className="body"><div className="ttl" style={{ fontSize: 14 }}>{l}</div></div>{i === 0 && <Play width="16" height="16" color="var(--lav-ink)" />}</a>)}</div>
+        <div className="list" style={{ background: 'var(--lav)' }}>{v.chapters.map(([t, l], i) => <a key={i} href="#ch" className="row" style={{ minHeight: 48 }}><span style={{ fontSize: 'calc(12px * var(--fs))', color: 'var(--lav-ink)', fontWeight: 700, width: 36 }}>{t}</span><div className="body"><div className="ttl" style={{ fontSize: 'calc(14px * var(--fs))' }}>{l}</div></div>{i === 0 && <Play width="16" height="16" color="var(--lav-ink)" />}</a>)}</div>
       </>}
       <div className="sec"><span className="t">외부 공유</span><span className="r">담당자 승인 필요</span></div>
       <div className="card" style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <div style={{ fontSize: 13, color: 'var(--ink-2)', lineHeight: 1.55 }}>면접 때 회사에 보여줄 일이 있으면 <b>7일짜리 링크</b>를 만들어요. 만든 링크는 여기서 언제든 끌 수 있어요.</div>
-        {p.shares.map((s) => <div key={s.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 12, background: 'var(--page-bg)' }}><div style={{ flex: 1 }}><div style={{ fontSize: 13, fontWeight: 500 }}>{s.label}</div><div style={{ fontSize: 12, color: 'var(--mute)' }}>{s.until}까지 · 조회 {s.views}회</div></div><button className="btn sm tint" style={{ height: 30, color: 'var(--red-ink)', borderColor: '#FECACA' }} onClick={() => notify('링크 꺼짐 (프로토타입)')}>끄기</button></div>)}
+        <div style={{ fontSize: 'calc(13px * var(--fs))', color: 'var(--ink-2)', lineHeight: 1.55 }}>면접 때 회사에 보여줄 일이 있으면 <b>7일짜리 링크</b>를 만들어요. 만든 링크는 여기서 언제든 끌 수 있어요.</div>
+        {p.shares.map((s) => <div key={s.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 12, background: 'var(--page-bg)' }}><div style={{ flex: 1 }}><div style={{ fontSize: 'calc(13px * var(--fs))', fontWeight: 500 }}>{s.label}</div><div style={{ fontSize: 'calc(12px * var(--fs))', color: 'var(--mute)' }}>{s.until}까지 · 조회 {s.views}회</div></div><button className="btn sm tint" style={{ height: 30, color: 'var(--red-ink)', borderColor: '#FECACA' }} onClick={() => notify('링크 꺼짐 (프로토타입)')}>끄기</button></div>)}
         <button className="btn sm tint" style={{ height: 42, color: 'var(--lav-ink)', borderColor: 'var(--lav-line)' }} onClick={() => notify('담당자 승인 요청 보냄 (프로토타입)')}>새 공유 링크 요청</button>
       </div>
       <div className="sticky-actions"><button className="btn ghost" style={{ flex: 1 }} onClick={() => nav(`/project/${p.id}/deploy`)}>← 배포 자료</button><button className="btn" style={{ flex: 1 }} onClick={() => nav(`/project/${p.id}`)}>프로젝트로</button></div>

@@ -18,9 +18,9 @@ export function CompanyRow({ c, active, interviewsCount }) {
         <div className="ttl" style={{ color: gray ? 'var(--mute)' : undefined }}>{c.name}</div>
         <div className="sub">{gray ? `현재 공고 없음 · ${c.checkedAt.slice(5, 10)} 확인` : `${(c.desc || '').split(' — ')[0] || c.postings[0]?.title} · ${c.location}`}</div>
       </div>
-      {c.dueSoon ? <span style={{ fontSize: 13, color: 'var(--red)', fontWeight: 500 }}>마감 D-2</span>
-        : c.isNew ? <span className="badge b-white" style={{ fontSize: 12 }}>NEW</span>
-        : c.hiring ? <span style={{ fontSize: 13, color: 'var(--mint-ink)', fontWeight: 600 }}>공고 {c.postingCount}</span> : null}
+      {c.dueSoon ? <span style={{ fontSize: 'calc(13px * var(--fs))', color: 'var(--red)', fontWeight: 500 }}>마감 D-2</span>
+        : c.isNew ? <span className="badge b-white" style={{ fontSize: 'calc(12px * var(--fs))' }}>NEW</span>
+        : c.hiring ? <span style={{ fontSize: 'calc(13px * var(--fs))', color: 'var(--mint-ink)', fontWeight: 600 }}>공고 {c.postingCount}</span> : null}
       <Chevron className="chev" />
     </Link>
   )
@@ -91,16 +91,16 @@ export function Company() {
           <div>
             <div className="tile" style={{ width: 56, height: 56, borderRadius: 18, background: c.hiring ? 'var(--green-bg)' : 'var(--line-2)', marginBottom: 10 }}><Building fill="#FFFFFF" width="30" height="30" /></div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}><h2 className="h2">{c.name}</h2>{c.hiring ? <span className="badge b-green">채용중</span> : <span className="badge b-gray">공고 없음</span>}</div>
-            <div style={{ fontSize: 14, color: 'var(--mute)', marginTop: 4 }}>{c.industry} · {c.location}</div>
-            <div style={{ fontSize: 14, color: 'var(--sky-dark)', marginTop: 2 }}>{c.contact || '인사담당자 연락처 미등록'}</div>
+            <div style={{ fontSize: 'calc(14px * var(--fs))', color: 'var(--mute)', marginTop: 4 }}>{c.industry} · {c.location}</div>
+            <div style={{ fontSize: 'calc(14px * var(--fs))', color: 'var(--sky-dark)', marginTop: 2 }}>{c.contact || '인사담당자 연락처 미등록'}</div>
           </div>
-          {c.desc && <div className="hero" style={{ borderRadius: 18, gap: 4, padding: '16px 18px' }}><div style={{ fontSize: 13, color: '#BAE6FD' }}>직무 한줄설명</div><div style={{ fontSize: 16, fontWeight: 500, lineHeight: 1.45 }}>{c.desc}</div></div>}
+          {c.desc && <div className="hero" style={{ borderRadius: 18, gap: 4, padding: '16px 18px' }}><div style={{ fontSize: 'calc(13px * var(--fs))', color: '#BAE6FD' }}>직무 한줄설명</div><div style={{ fontSize: 'calc(16px * var(--fs))', fontWeight: 500, lineHeight: 1.45 }}>{c.desc}</div></div>}
           <div className="sec"><span className="t">현재 공고</span><span className="r">사람인 · {c.checkedAt} 확인</span></div>
           <div className="list" style={{ background: 'var(--rose)' }}>
             {c.postings.map((p) => (
               <a key={p.id} href={p.link} target="_blank" rel="noreferrer" className="row" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: 6 }}>
-                <div style={{ fontSize: 15, fontWeight: 500, lineHeight: 1.4 }}>{p.title}</div>
-                <div style={{ display: 'flex', gap: 12, fontSize: 13, color: 'var(--mute)', flexWrap: 'wrap' }}><span>접수 {p.start}</span><span>마감 {p.due}</span><span>{p.career} · {p.edu}</span><span style={{ color: 'var(--rose-ink)', fontWeight: 600 }}>사람인 ↗</span></div>
+                <div style={{ fontSize: 'calc(15px * var(--fs))', fontWeight: 500, lineHeight: 1.4 }}>{p.title}</div>
+                <div style={{ display: 'flex', gap: 12, fontSize: 'calc(13px * var(--fs))', color: 'var(--mute)', flexWrap: 'wrap' }}><span>접수 {p.start}</span><span>마감 {p.due}</span><span>{p.career} · {p.edu}</span><span style={{ color: 'var(--rose-ink)', fontWeight: 600 }}>사람인 ↗</span></div>
               </a>
             ))}
             {c.postings.length === 0 && <div className="empty">지금은 올라온 공고가 없어요</div>}

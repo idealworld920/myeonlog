@@ -50,11 +50,11 @@ export function Student() {
       <TopBar title="수강생" back="/students" />
       <div className="card" style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div className="avatar" style={{ width: 48, height: 48, fontSize: 18, background: 'var(--sky)', color: '#fff' }}>{initial(s.name)}</div>
-          <div><div style={{ fontSize: 18, fontWeight: 700 }}>{s.name}</div><div style={{ fontSize: 13, color: 'var(--mute)' }}>{s.cohort} · 면접 {ivs.length}회 · 합격 {passed}</div></div>
+          <div className="avatar" style={{ width: 48, height: 48, fontSize: 'calc(18px * var(--fs))', background: 'var(--sky)', color: '#fff' }}>{initial(s.name)}</div>
+          <div><div style={{ fontSize: 'calc(18px * var(--fs))', fontWeight: 700 }}>{s.name}</div><div style={{ fontSize: 'calc(13px * var(--fs))', color: 'var(--mute)' }}>{s.cohort} · 면접 {ivs.length}회 · 합격 {passed}</div></div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingTop: 12, borderTop: '1px solid var(--line-2)' }}>
-          <div style={{ flex: 1 }}><div style={{ fontSize: 13, fontWeight: 500, color: 'var(--mute)' }}>취업 여부</div><div style={{ fontSize: 12, color: 'var(--mute-2)' }}>{s.status === '취업' && employed ? `${cById[employed.companyId]?.name} · ${employed.when}` : '담당자가 직접 바꿀 수 있어요'}</div></div>
+          <div style={{ flex: 1 }}><div style={{ fontSize: 'calc(13px * var(--fs))', fontWeight: 500, color: 'var(--mute)' }}>취업 여부</div><div style={{ fontSize: 'calc(12px * var(--fs))', color: 'var(--mute-2)' }}>{s.status === '취업' && employed ? `${cById[employed.companyId]?.name} · ${employed.when}` : '담당자가 직접 바꿀 수 있어요'}</div></div>
           <div className="seg" role="group" aria-label="취업 여부">
             {STATUS.map((st) => <button key={st} className={s.status === st ? (st === '취업' ? 'on-green' : 'on') : ''} onClick={() => { setStudentStatus(s.id, st); notify(`${s.name} · ${st}`) }}>{st}</button>)}
           </div>
@@ -119,10 +119,10 @@ export function Interview() {
       <div className="card" style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <div className="avatar" style={{ width: 42, height: 42, background: '#FDE68A', color: '#92400E' }}>{initial(s?.name)}</div>
-          <div style={{ minWidth: 0 }}><div style={{ fontSize: 17, fontWeight: 700 }}>{s?.name} → {c?.name}</div><div style={{ fontSize: 13, color: 'var(--mute)' }}>{iv.when || '일시 미정'}{c?.desc ? ` · ${c.desc.split(' — ')[0]}` : ''}</div></div>
+          <div style={{ minWidth: 0 }}><div style={{ fontSize: 'calc(17px * var(--fs))', fontWeight: 700 }}>{s?.name} → {c?.name}</div><div style={{ fontSize: 'calc(13px * var(--fs))', color: 'var(--mute)' }}>{iv.when || '일시 미정'}{c?.desc ? ` · ${c.desc.split(' — ')[0]}` : ''}</div></div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingTop: 12, borderTop: '1px solid var(--line-2)' }}>
-          <div style={{ flex: 1, fontSize: 13, fontWeight: 500, color: 'var(--mute)' }}>면접 결과</div>
+          <div style={{ flex: 1, fontSize: 'calc(13px * var(--fs))', fontWeight: 500, color: 'var(--mute)' }}>면접 결과</div>
           <div className="seg" role="group">
             {['대기', '합격', '불합격'].map((r) => <button key={r} className={iv.result === r ? (r === '합격' ? 'on-green' : 'on') : ''} onClick={() => { setInterview(iv.id, { result: r }); if (r === '합격') notify('합격! 수강생 취업 여부도 바꿀까요? (수강생 화면)') }}>{r}</button>)}
           </div>
@@ -132,15 +132,15 @@ export function Interview() {
       <div className="list" style={{ background: 'var(--yellow)' }}>
         {(iv.questions || []).map((x, i) => (
           <div key={i} className="row" style={{ alignItems: 'flex-start' }}>
-            <div className="avatar" style={{ width: 26, height: 26, fontSize: 12, background: 'var(--card-bg)', color: '#92400E' }}>{i + 1}</div>
-            <div className="body"><div style={{ fontSize: 14, lineHeight: 1.45 }}>{x.text}</div><div><span style={{ fontSize: 11, color: 'var(--mute)', background: 'var(--card-bg)', borderRadius: 8, padding: '2px 7px' }}>{x.tag}</span></div></div>
+            <div className="avatar" style={{ width: 26, height: 26, fontSize: 'calc(12px * var(--fs))', background: 'var(--card-bg)', color: '#92400E' }}>{i + 1}</div>
+            <div className="body"><div style={{ fontSize: 'calc(14px * var(--fs))', lineHeight: 1.45 }}>{x.text}</div><div><span style={{ fontSize: 'calc(11px * var(--fs))', color: 'var(--mute)', background: 'var(--card-bg)', borderRadius: 8, padding: '2px 7px' }}>{x.tag}</span></div></div>
           </div>
         ))}
         {!(iv.questions || []).length && <div className="empty">아직 기록된 질문이 없어요 — 아래에서 추가해 보세요</div>}
       </div>
       <div style={{ display: 'flex', gap: 8 }}>
-        <input value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && add()} placeholder="질문 추가 (예: 포트폴리오 설명)" style={{ flex: 1, height: 44, borderRadius: 12, border: '1px solid var(--yellow-line)', background: 'var(--card-bg)', padding: '0 14px', fontSize: 14, outline: 0, minWidth: 0 }} />
-        <select value={tag} onChange={(e) => setTag(e.target.value)} style={{ height: 44, borderRadius: 12, border: '1px solid var(--yellow-line)', background: 'var(--card-bg)', padding: '0 8px', fontSize: 13 }}>{TAGS.map((t) => <option key={t}>{t}</option>)}</select>
+        <input value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && add()} placeholder="질문 추가 (예: 포트폴리오 설명)" style={{ flex: 1, height: 44, borderRadius: 12, border: '1px solid var(--yellow-line)', background: 'var(--card-bg)', padding: '0 14px', fontSize: 'calc(14px * var(--fs))', outline: 0, minWidth: 0 }} />
+        <select value={tag} onChange={(e) => setTag(e.target.value)} style={{ height: 44, borderRadius: 12, border: '1px solid var(--yellow-line)', background: 'var(--card-bg)', padding: '0 8px', fontSize: 'calc(13px * var(--fs))' }}>{TAGS.map((t) => <option key={t}>{t}</option>)}</select>
         <button className="btn sm" style={{ height: 44, background: 'var(--amber)', borderRadius: 12 }} onClick={add}>추가</button>
       </div>
       <div className="sec"><span className="t">면접 후기 · 메모</span><span className="r">담당자만 봄</span></div>

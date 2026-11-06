@@ -41,8 +41,8 @@ export default function Layout() {
         <div className="side-foot">
           <div className="side-foot-box side-foot-text">마지막 갱신<br /><b style={{ color: 'var(--ink)' }}>11월 5일 05:00</b> · 성공</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 4px' }}>
-            <div className="avatar" style={{ width: 32, height: 32, background: 'var(--sky)', color: '#fff', fontSize: 13 }}>{initial(state.user.name)}</div>
-            <span className="side-foot-text" style={{ fontSize: 13, color: 'var(--mute)' }}>{state.user.name} 님</span>
+            <div className="avatar" style={{ width: 32, height: 32, background: 'var(--sky)', color: '#fff', fontSize: 'calc(13px * var(--fs))' }}>{initial(state.user.name)}</div>
+            <span className="side-foot-text" style={{ fontSize: 'calc(13px * var(--fs))', color: 'var(--mute)' }}>{state.user.name} 님</span>
           </div>
         </div>
       </aside>
@@ -64,7 +64,7 @@ export function TopBar({ title, back = -1, right }) {
   return (
     <div className="topbar">
       <BackLink to={back} />
-      <div style={{ flex: 1, fontSize: 15, color: 'var(--mute)' }}>{title}</div>
+      <div style={{ flex: 1, fontSize: 'calc(15px * var(--fs))', color: 'var(--mute)' }}>{title}</div>
       {right}
     </div>
   )
